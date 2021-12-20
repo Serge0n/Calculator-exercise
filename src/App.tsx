@@ -17,7 +17,7 @@ export const App:FC  = () => {
     waitingForRightOperand,
     leftOperand,
     result
-  });
+  })
 
   const calculate = (rightOperand: number, pendingOperator: Operator): boolean => {
     let newResult = Number(leftOperand)
@@ -41,13 +41,16 @@ export const App:FC  = () => {
     }
 
     setResult(newResult)
-    setScreen(newResult.toString().slice(0, 15))
+    setScreen(newResult.toString().slice(0, 13))
 
     return true
   }
 
   const onDigitClick = (digit: Digit) => {
     console.log(digit)
+
+    if (screen.length > 13) return 
+
     let newScreen = screen
 
     if (waitingForRightOperand) {
@@ -117,6 +120,7 @@ export const App:FC  = () => {
 
     // setResult(operand)
     setWaitingForRightOperand(true)
+    setOperator(undefined)
 
     console.log("=")
   }
@@ -130,8 +134,16 @@ export const App:FC  = () => {
 
   return (
     <Calculator>
-      <Screen value={screen}/>
-      <Numpad {...{onDigitClick, onOperatorClick, onChangeSignClick, onResetClick, onDeleteClick, onCalculateClick, onDotClick}}/>
+      <Screen screen={screen} operator={operator}/>
+      <Numpad
+        onDigitClick={onDigitClick}
+        onOperatorClick={onOperatorClick}
+        onChangeSignClick={onChangeSignClick}
+        onResetClick={onResetClick}
+        onDeleteClick={onDeleteClick}
+        onCalculateClick={onCalculateClick}
+        onDotClick={onDotClick}
+      />
     </Calculator>
   )
 }

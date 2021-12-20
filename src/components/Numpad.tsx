@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import styled from 'styled-components'
 import { Digit, Operator } from '../types';
 import { Button } from './Button'
@@ -29,6 +29,31 @@ export const Numpad:FC<NumpadProps>  = ({
   onCalculateClick,
   onDotClick
 }) => {
+
+  const handleKeyDown = ({ key }: KeyboardEvent) => {
+    console.log(key)
+
+    if (Number(key) >= 0 && Number(key) <=9) {
+      onDigitClick(Number(key) as Digit)
+    } else if (key === ".") {
+      onDotClick()
+    } else if (key === "+" || key === "-" || key === "*" || key === "/") {
+      onOperatorClick(key)
+    } else if (key === "=" || key === "Enter") {
+      onCalculateClick()
+    } else if (key === "Backspace" || key === "Delete") {
+      onDeleteClick()
+    } else if (key === "Clear") {
+      onResetClick()
+    } else if (key === "±") {
+      onChangeSignClick()
+    }
+  }
+
+  useEffect(() => {
+    document.body.addEventListener('keydown', handleKeyDown)
+    return () => document.body.removeEventListener('keydown', handleKeyDown)
+  })
 
   return (
     <StyledNumpad>

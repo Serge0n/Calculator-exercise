@@ -1,29 +1,35 @@
 import { FC } from 'react'
 import styled from 'styled-components'
+import { Operator } from '../types'
 
 const StyledDisplay = styled.div`
   padding: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
 `
 
 const StyledScreen = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  overflow: hidden;
   font-size: 2em;
   color: #fff;
 `
 
+const StyledOperator = styled.div`
+  font-size: 1em;
+  color: #fff;
+`
+
 interface ScreenProps {
-  value: string
+  screen: string
+  operator: Operator | undefined
 }
 
-export const Screen: FC<ScreenProps> = ({ value }) => {
+export const Screen: FC<ScreenProps> = ({ screen, operator }) => {
   return (
     <StyledDisplay>
-      <StyledScreen>
-        {value}
-      </StyledScreen>
+      <StyledOperator>{operator}</StyledOperator>
+      <StyledScreen>{screen}</StyledScreen>
     </StyledDisplay>
   )
 }
