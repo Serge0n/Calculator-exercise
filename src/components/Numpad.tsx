@@ -28,10 +28,7 @@ export const Numpad:FC<NumpadProps>  = ({
   onCalculateClick,
   onDotClick
 }) => {
-
   const handleKeyDown = ({ key }: KeyboardEvent) => {
-    console.log(key)
-
     if (Number(key) >= 0 && Number(key) <=9) {
       onDigitClick(Number(key) as Digit)
     } else if (key === ".") {

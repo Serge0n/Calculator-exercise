@@ -4,6 +4,8 @@ import { Numpad } from './components/Numpad'
 import { Screen } from './components/Screen'
 import { Digit, Operator } from './types'
 
+const MAX_DIGITS = 11
+
 export const App:FC  = () => {
   const [screen, setScreen] = useState("0")
   const [operator, setOperator] = useState<Operator>()
@@ -32,14 +34,13 @@ export const App:FC  = () => {
     }
 
     setResult(newResult)
-    setScreen(newResult.toString().slice(0, 11))
+    setScreen(newResult.toString().slice(0, MAX_DIGITS))
 
     return true
   }
 
   const onDigitClick = (digit: Digit) => {
-
-    if (screen.length >= 11) return 
+    if (screen.length >= MAX_DIGITS && !operator) return
 
     let newScreen = screen
 
@@ -54,6 +55,7 @@ export const App:FC  = () => {
       newScreen = digit.toString()
     }
 
+    if (screen.length >= MAX_DIGITS && !waitingForRightOperand) return
     setScreen(newScreen)
   }
 
