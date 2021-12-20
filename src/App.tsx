@@ -7,20 +7,11 @@ import { Digit, Operator } from './types'
 export const App:FC  = () => {
   const [screen, setScreen] = useState("0")
   const [operator, setOperator] = useState<Operator>()
-  const [waitingForRightOperand, setWaitingForRightOperand] = useState(false)
-  const [leftOperand, setLeftOperand] = useState("")
+  const [waitingForRightOperand, setWaitingForRightOperand] = useState(true)
   const [result, setResult] = useState(0)
 
-  console.log({
-    screen,
-    operator,
-    waitingForRightOperand,
-    leftOperand,
-    result
-  })
-
   const calculate = (rightOperand: number, pendingOperator: Operator): boolean => {
-    let newResult = Number(leftOperand)
+    let newResult = result
 
     switch (pendingOperator) {
       case '+':
@@ -41,20 +32,19 @@ export const App:FC  = () => {
     }
 
     setResult(newResult)
-    setScreen(newResult.toString().slice(0, 13))
+    setScreen(newResult.toString().slice(0, 11))
 
     return true
   }
 
   const onDigitClick = (digit: Digit) => {
-    console.log(digit)
 
-    if (screen.length > 13) return 
+    if (screen.length >= 11) return 
 
     let newScreen = screen
 
     if (waitingForRightOperand) {
-      newScreen = ''
+      newScreen = ""
       setWaitingForRightOperand(false)
     }
 
@@ -67,69 +57,53 @@ export const App:FC  = () => {
     setScreen(newScreen)
   }
 
-  const onOperatorClick = (operator: Operator) => {
-    // const operand = Number(screen)
+  const onOperatorClick = (newOperator: Operator) => {
+    const rightOperand = Number(screen)
 
-    // if (typeof operator !== 'undefined' && !waitingForOperand) {
-    //   if (!calculate(operand, operator)) {
-    //     return
-    //   }
-    // } else {
-    //   setResult(operand)
-    // }
+    if (operator && !waitingForRightOperand) {
+      if (!calculate(rightOperand, operator)) return
+    } else {
+      setResult(rightOperand)
+    }
 
-    setLeftOperand(screen)
-    setOperator(operator)
+    setOperator(newOperator)
     setWaitingForRightOperand(true)
-    console.log(operator)
   }
 
   const onChangeSignClick = () => {
-    console.log("+-")
     if (screen === "0") return
     Number(screen) > 0 ? setScreen('-' + screen) : setScreen(screen.slice(1))
   }
 
   const onResetClick = () => {
     setScreen("0")
-    setWaitingForRightOperand(false)
+    setWaitingForRightOperand(true)
     setOperator(undefined)
-    setLeftOperand("")
     setResult(0)
-    console.log("C")
   }
 
   const onDeleteClick = () => {
     setScreen((screen.length === 2 && screen[0] === "-") || screen.length === 1 ? "0" : screen.slice(0,-1))
-    console.log("<=", parseInt(screen, 10))
   }
 
   const onCalculateClick = () => {
-
     const rightOperand = Number(screen)
 
-    if (typeof operator !== 'undefined' && !waitingForRightOperand) {
-      if (!calculate(rightOperand, operator)) {
-        return
-      }
-
-      // setPendingOperator(undefined)
+    if (operator && !waitingForRightOperand) {
+      if (!calculate(rightOperand, operator)) return
+      setOperator(undefined)
     } else {
       setScreen(rightOperand.toString())
     }
 
-    // setResult(operand)
+    setResult(rightOperand)
     setWaitingForRightOperand(true)
-    setOperator(undefined)
-
-    console.log("=")
   }
 
   const onDotClick = () => {
     if (screen.indexOf('.') === -1) {
       setScreen(screen + ".")
     }
-    console.log(".")
   }
 
   return (
