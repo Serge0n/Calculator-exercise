@@ -119,7 +119,7 @@ export const Calculator: FC<CalculatorProps> = ({ themeToggler }) => {
   }
 
   const onDotClick = () => {
-    if (screen.indexOf('.') === -1) {
+    if (screen.indexOf('.') === -1 && screen.length < MAX_DIGITS) {
       setScreen(screen + ".")
     }
   }

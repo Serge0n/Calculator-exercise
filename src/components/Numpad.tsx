@@ -33,7 +33,7 @@ export const Numpad:FC<NumpadProps>  = ({
       case (Number(key) >= 0 && Number(key) <=9):
         onDigitClick(Number(key) as Digit)
         break
-      case key === ".":
+      case key === "." || key === ",":
         onDotClick()
         break
       case key === "+" || key === "-" || key === "*" || key === "/":
