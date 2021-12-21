@@ -29,24 +29,24 @@ export const Calculator: FC<CalculatorProps> = ({ themeToggler }) => {
   const [result, setResult] = useState(0)
 
   const calculate = (rightOperand: number, pendingOperator: Operator): boolean => {
-    let newResult = result
+    let newResult = result*10
 
     switch (pendingOperator) {
       case '+':
-        newResult += rightOperand
+        newResult = (newResult + rightOperand*10)/10
         break
       case '-':
-        newResult -= rightOperand
+        newResult = (newResult - rightOperand*10)/10
         break
       case '*':
-        newResult *= rightOperand
+        newResult = (newResult * rightOperand*10)/100
         break
       case '/':
         if (rightOperand === 0) {
           return false
         }
 
-        newResult /= rightOperand
+        newResult = (newResult / rightOperand*10)/100
     }
 
     setResult(newResult)
