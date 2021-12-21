@@ -9,17 +9,17 @@ const StyledDisplay = styled.div`
   align-items: center;
   justify-content: space-between;
   overflow: hidden;
-  background-color: rgba(9, 5, 34, 0.4);
+  background-color: ${({ theme }) => theme.screenBg};
 `
 
 const StyledScreen = styled.div`
   font-size: 2.3em;
-  color: #fff;
+  color: ${({ theme }) => theme.color};
 `
 
 const StyledOperator = styled.div`
   font-size: 1em;
-  color: rgba(209, 53, 13);
+  color: ${({ theme }) => theme.operatorColor};
 `
 
 interface ScreenProps {
