@@ -29,22 +29,33 @@ export const Numpad:FC<NumpadProps>  = ({
   onDotClick
 }) => {
   const handleKeyDown = ({ key }: KeyboardEvent) => {
-    if (Number(key) >= 0 && Number(key) <=9) {
-      onDigitClick(Number(key) as Digit)
-    } else if (key === ".") {
-      onDotClick()
-    } else if (key === "+" || key === "-" || key === "*" || key === "/") {
-      onOperatorClick(key)
-    } else if (key === "=" || key === "Enter") {
-      onCalculateClick()
-    } else if (key === "Backspace" || key === "Delete") {
-      onDeleteClick()
-    } else if (key === "Clear") {
-      onResetClick()
-    } else if (key === "±") {
-      onChangeSignClick()
+    switch (true) {
+      case (Number(key) >= 0 && Number(key) <=9):
+        onDigitClick(Number(key) as Digit)
+        break
+      case key === ".":
+        onDotClick()
+        break
+      case key === "+" || key === "-" || key === "*" || key === "/":
+        onOperatorClick(key as Operator)
+        break
+      case key === "=" || key === "Enter":
+        onCalculateClick()
+        break
+      case key === "Backspace" || key === "Delete":
+        onDeleteClick()
+        break
+      case key === "Clear":
+        onResetClick()
+        break
+      case key === "±":
+        onChangeSignClick()
+        break
+      default:
+        return
     }
   }
+
 
   useEffect(() => {
     document.body.addEventListener('keydown', handleKeyDown)
