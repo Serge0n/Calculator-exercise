@@ -25,7 +25,7 @@ interface CalculatorProps {
 export const Calculator: FC<CalculatorProps> = ({ themeToggler }) => {
   const [screen, setScreen] = useState("0")
   const [operator, setOperator] = useState<Operator>()
-  const [waitingForRightOperand, setWaitingForRightOperand] = useState(true)
+  const [isWaitingForRightOperand, setIsWaitingForRightOperand] = useState(true)
   const [result, setResult] = useState(0)
 
   const calculate = (rightOperand: number, pendingOperator: Operator): boolean => {
@@ -60,9 +60,9 @@ export const Calculator: FC<CalculatorProps> = ({ themeToggler }) => {
 
     let newScreen = screen
 
-    if (waitingForRightOperand) {
+    if (isWaitingForRightOperand) {
       newScreen = ""
-      setWaitingForRightOperand(false)
+      setIsWaitingForRightOperand(false)
     }
 
     if (screen !== '0') {
@@ -71,21 +71,21 @@ export const Calculator: FC<CalculatorProps> = ({ themeToggler }) => {
       newScreen = digit.toString()
     }
 
-    if (screen.length >= MAX_DIGITS && !waitingForRightOperand) return
+    if (screen.length >= MAX_DIGITS && !isWaitingForRightOperand) return
     setScreen(newScreen)
   }
 
   const onOperatorClick = (newOperator: Operator) => {
     const rightOperand = Number(screen)
 
-    if (operator && !waitingForRightOperand) {
+    if (operator && !isWaitingForRightOperand) {
       if (!calculate(rightOperand, operator)) return
     } else {
       setResult(rightOperand)
     }
 
     setOperator(newOperator)
-    setWaitingForRightOperand(true)
+    setIsWaitingForRightOperand(true)
   }
 
   const onChangeSignClick = () => {
@@ -95,7 +95,7 @@ export const Calculator: FC<CalculatorProps> = ({ themeToggler }) => {
 
   const onResetClick = () => {
     setScreen("0")
-    setWaitingForRightOperand(true)
+    setIsWaitingForRightOperand(true)
     setOperator(undefined)
     setResult(0)
   }
@@ -107,7 +107,7 @@ export const Calculator: FC<CalculatorProps> = ({ themeToggler }) => {
   const onCalculateClick = () => {
     const rightOperand = Number(screen)
 
-    if (operator && !waitingForRightOperand) {
+    if (operator && !isWaitingForRightOperand) {
       if (!calculate(rightOperand, operator)) return
       setOperator(undefined)
     } else {
@@ -115,7 +115,7 @@ export const Calculator: FC<CalculatorProps> = ({ themeToggler }) => {
     }
 
     setResult(rightOperand)
-    setWaitingForRightOperand(true)
+    setIsWaitingForRightOperand(true)
   }
 
   const onDotClick = () => {
