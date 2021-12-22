@@ -4,6 +4,8 @@ import { Digit, Operator } from "../types"
 import { Numpad } from "./Numpad"
 import { Display } from "./Display"
 import { ThemeToggler } from "./ThemeToggler"
+import { calculate } from "../utils/calculate"
+import { checkDivideByZero } from "../utils/checkDivideByZero"
 
 const StyledCalculator = styled.div`
   padding: 1rem;
@@ -27,33 +29,6 @@ export const Calculator: FC<CalculatorProps> = ({ themeToggler }) => {
   const [operator, setOperator] = useState<Operator>()
   const [isWaitingForRightOperand, setIsWaitingForRightOperand] = useState(true)
   const [result, setResult] = useState(0)
-
-  const calculate = (rightOperand: number, pendingOperator: Operator): boolean => {
-    let newResult = result*10
-
-    switch (pendingOperator) {
-      case '+':
-        newResult = (newResult + rightOperand*10)/10
-        break
-      case '-':
-        newResult = (newResult - rightOperand*10)/10
-        break
-      case '*':
-        newResult = (newResult * rightOperand*10)/100
-        break
-      case '/':
-        if (rightOperand === 0) {
-          return false
-        }
-
-        newResult = (newResult / rightOperand*10)/100
-    }
-
-    setResult(newResult)
-    setScreen(newResult.toString().slice(0, MAX_DIGITS))
-
-    return true
-  }
 
   const onDigitClick = (digit: Digit) => {
     if (screen.length >= MAX_DIGITS && !operator) return
@@ -79,7 +54,11 @@ export const Calculator: FC<CalculatorProps> = ({ themeToggler }) => {
     const rightOperand = Number(screen)
 
     if (operator && !isWaitingForRightOperand) {
-      if (!calculate(rightOperand, operator)) return
+      if (checkDivideByZero(rightOperand, operator)) return
+
+      const newResult = calculate(result, rightOperand, operator)
+      setResult(newResult)
+      setScreen(newResult.toString().slice(0, MAX_DIGITS))
     } else {
       setResult(rightOperand)
     }
@@ -108,7 +87,11 @@ export const Calculator: FC<CalculatorProps> = ({ themeToggler }) => {
     const rightOperand = Number(screen)
 
     if (operator && !isWaitingForRightOperand) {
-      if (!calculate(rightOperand, operator)) return
+      if (checkDivideByZero(rightOperand, operator)) return
+
+      const newResult = calculate(result, rightOperand, operator)
+      setResult(newResult as number)
+      setScreen(newResult.toString().slice(0, MAX_DIGITS))
       setOperator(undefined)
     } else {
       setScreen(rightOperand.toString())
