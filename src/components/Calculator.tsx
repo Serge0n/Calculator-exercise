@@ -2,7 +2,7 @@ import { FC, useState } from "react"
 import styled from "styled-components"
 import { Digit, Operator } from "../types"
 import { Numpad } from "./Numpad"
-import { Screen } from "./Screen"
+import { Display } from "./Display"
 import { ThemeToggler } from "./ThemeToggler"
 
 const StyledCalculator = styled.div`
@@ -127,7 +127,7 @@ export const Calculator: FC<CalculatorProps> = ({ themeToggler }) => {
   return (
     <StyledCalculator>
       <ThemeToggler themeToggler={themeToggler} />
-      <Screen screen={screen} operator={operator}/>
+      <Display screen={screen} operator={operator}/>
       <Numpad
         onDigitClick={onDigitClick}
         onOperatorClick={onOperatorClick}

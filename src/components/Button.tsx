@@ -45,3 +45,5 @@ export const Button:FC<ButtonProps> = ({ value, onClick, isEqual = false }) => {
     </StyledButton>
   )
 }
+
+StyledButton.displayName = "NumpadButton"

@@ -27,7 +27,7 @@ interface ScreenProps {
   operator: Operator | undefined
 }
 
-export const Screen: FC<ScreenProps> = ({ screen, operator }) => {
+export const Display: FC<ScreenProps> = ({ screen, operator }) => {
   return (
     <StyledDisplay>
       <StyledOperator>{operator}</StyledOperator>
@@ -35,3 +35,6 @@ export const Screen: FC<ScreenProps> = ({ screen, operator }) => {
     </StyledDisplay>
   )
 }
+
+StyledOperator.displayName = "Operator"
+StyledScreen.displayName = "Screen"

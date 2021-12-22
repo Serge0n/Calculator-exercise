@@ -12,7 +12,7 @@ export const App:FC  = () => {
   return (
     <ThemeProvider theme={selectedTheme}>
       <GlobalStyles />
-      <Calculator themeToggler={themeToggler}/>
+      <Calculator themeToggler={themeToggler} />
     </ThemeProvider>
   )
 }
